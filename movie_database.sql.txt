@@ -1,0 +1,285 @@
+
+create database movie_database;
+Query OK, 1 row affected (0.002 sec)
+
+use movie_database;
+Database changed
+
+create table actor(act_id int PRIMARY KEY,act_fname char(20),act_lname char(20),act_gender char(1));
+Query OK, 0 rows affected (0.018 sec)
+
+create table director(dir_id int PRIMARY KEY,dir_fname char(20),dir_lname char(20));
+Query OK, 0 rows affected (0.018 sec)
+
+create table movie(mov_id int PRIMARY KEY,mov_title char(50),mov_year int,mov_time int,mov_lang char(50),mov_dt_rel date,mov_rel_country char(5));
+Query OK, 0 rows affected (0.019 sec)
+
+create table genres(gen_id int PRIMARY KEY,gen_title char(20));
+Query OK, 0 rows affected (0.017 sec)
+
+create table reviewer(rev_id int PRIMARY KEY,rev_name char(30));
+Query OK, 0 rows affected (0.018 sec)
+
+create table movie_cast(act_id int,mov_id int,role char(30),FOREIGN KEY(act_id) REFERENCES actor(act_id),FOREIGN KEY (mov_id) REFERENCES movie(mov_id));
+Query OK, 0 rows affected (0.031 sec)
+
+create table movie_direction(dir_id int,mov_id int,FOREIGN KEY(dir_id) REFERENCES director(dir_id),FOREIGN KEY(mov_id) REFERENCES movie(mov_id));
+Query OK, 0 rows affected (0.043 sec)
+
+create table movie_genres(mov_id int,gen_id int,FOREIGN KEY(mov_id) REFERENCES movie(mov_id),FOREIGN KEY(gen_id) REFERENCES genres(gen_id));
+Query OK, 0 rows affected (0.043 sec)
+
+create table rating(mov_id int,rev_id int,rev_stars int,num_o_ratings int,FOREIGN KEY(mov_id) REFERENCES movie(mov_id),FOREIGN KEY(rev_id) REFERENCES reviewer(rev_id));
+Query OK, 0 rows affected (0.046 sec)
+
+insert into actor values(101,'Woody','Allen','M');
+Query OK, 1 row affected (0.011 sec)
+
+insert into actor values(102,'Kate','Winslet','F');
+Query OK, 1 row affected (0.010 sec)
+
+insert into actor values(103,'Tim','Robbins','M');
+Query OK, 1 row affected (0.009 sec)
+
+insert into actor values(104,'Dev','Patel','M');
+Query OK, 1 row affected (0.012 sec)
+
+insert into actor values(101,'Claire','Danes','F');
+Query OK, 1 row affected (0.009 sec)
+
+select * from actor;
+
++--------+-----------+-----------+------------+
+| act_id | act_fname | act_lname | act_gender |
++--------+-----------+-----------+------------+
+|    101 | Woody     | Allen     | M          |
+|    102 | Kate      | Winslet   | F          |
+|    103 | Tim       | Robbins   | M          |
+|    104 | Dev       | Patel     | M          |
+|    105 | Claire    | Danes     | F          |
++--------+-----------+-----------+------------+
+5 rows in set (0.081 sec)
+
+insert into director values(201,'James','Cameron');
+Query OK, 1 row affected (0.015 sec)
+
+insert into director values(202,'John','Boorman');
+Query OK, 1 row affected (0.009 sec)
+
+insert into director values(203,'Christopher','Nolan');
+Query OK, 1 row affected (0.009 sec)
+
+insert into director values(204,'Kevin','Spacey');
+Query OK, 1 row affected (0.008 sec)
+
+insert into director values(205,'Peter','Jackson');
+Query OK, 1 row affected (0.012 sec)
+
+select * from director;
+
++--------+-------------+-----------+
+| dir_id | dir_fname   | dir_lname |
++--------+-------------+-----------+
+|    201 | James       | Cameron   |
+|    202 | John        | Boorman   |
+|    203 | Christopher | Nolan     |
+|    204 | Kevin       | Spacey    |
+|    205 | Peter       | Jackson   |
++--------+-------------+-----------+
+5 rows in set (0.017 sec)
+
+insert into movie values(901,'Annie Hall',1977,93,'English','1977-04-20','USA');
+Query OK, 1 row affected (0.013 sec)
+
+insert into movie values(902,'Titanic',1997,194,'English','1997-01-23','UK');
+Query OK, 1 row affected (0.012 sec)
+
+insert into movie values(903,'The Showshank Redemption',1994,142,'English','1994-02-17','UK');
+Query OK, 1 row affected (0.007 sec)
+
+insert into movie values(904,'Slumdog Millionaire',2008,120,'English','2008-01-09','UK');
+Query OK, 1 row affected (0.009 sec)
+
+insert into movie values(905,'Princess Mononoke',1997,134,'Japanese','1997-10-19','UK');
+Query OK, 1 row affected (0.009 sec)
+
+select * from movie;
+
++--------+--------------------------+----------+----------+----------+------------+-----------------+
+| mov_id | mov_title                | mov_year | mov_time | mov_lang | mov_dt_rel | mov_rel_country |
++--------+--------------------------+----------+----------+----------+------------+-----------------+
+|    901 | Annie Hall               |     1977 |       93 | English  | 1977-04-20 | USA             |
+|    902 | Titanic                  |     1997 |      194 | English  | 1997-01-23 | UK              |
+|    903 | The Showshank Redemption |     1994 |      142 | English  | 1994-02-17 | UK              |
+|    904 | Slumdog Millionaire      |     2008 |      120 | English  | 2008-01-09 | UK              |
+|    905 | Princess Mononoke        |     1997 |      134 | Japanese | 1997-10-19 | UK              |
++--------+--------------------------+----------+----------+----------+------------+-----------------+
+5 rows in set (0.000 sec)
+
+insert into genres values(1001,'Comedy');
+Query OK, 1 row affected (0.015 sec)
+
+insert into genres values(1002,'Romance');
+Query OK, 1 row affected (0.009 sec)
+
+insert into genres values(1003,'Crime');
+Query OK, 1 row affected (0.006 sec)
+
+insert into genres values(1004,'Drama');
+Query OK, 1 row affected (0.009 sec)
+
+insert into genres values(1005,'Adventure');
+Query OK, 1 row affected (0.009 sec)
+
+select * from genres;
+
++--------+-----------+
+| gen_id | gen_title |
++--------+-----------+
+|   1001 | Comedy    |
+|   1002 | Romance   |
+|   1003 | Crime     |
+|   1004 | Drama     |
+|   1005 | Adventure |
++--------+-----------+
+5 rows in set (0.022 sec)
+
+insert into reviewer values(9001,'Paul Monks');
+Query OK, 1 row affected (0.014 sec)
+
+insert into reviewer values(9002,'Sasha Goldshtein');
+Query OK, 1 row affected (0.012 sec)
+
+insert into reviewer values(9003,'Josh Cates');
+Query OK, 1 row affected (0.008 sec)
+
+insert into reviewer values(9004,'Richard Adams');
+Query OK, 1 row affected (0.009 sec)
+
+insert into reviewer values(9005,'Hannah Steele');
+Query OK, 1 row affected (0.009 sec)
+
+select * from reviewer;
+
++--------+------------------+
+| rev_id | rev_name         |
++--------+------------------+
+|   9001 | Paul Monks       |
+|   9002 | Sasha Goldshtein |
+|   9003 | Josh Cates       |
+|   9004 | Richard Adams    |
+|   9005 | Hannah Steele    |
++--------+------------------+
+5 rows in set (0.019 sec)
+
+insert into movie_cast values(101,901,'Alvy Singer');
+Query OK, 1 row affected (0.011 sec)
+
+insert into movie_cast values(102,902,'Rose DeWitt Bukater');
+Query OK, 1 row affected (0.006 sec)
+
+insert into movie_cast values(103,903,'Andy Dufresne');
+Query OK, 1 row affected (0.009 sec)
+
+insert into movie_cast values(104,904,'Jamal Malik');
+Query OK, 1 row affected (0.009 sec)
+
+insert into movie_cast values(105,905,'Princess Mononoke');
+Query OK, 1 row affected (0.008 sec)
+
+select * from movie_cast;
+
++--------+--------+---------------------+
+| act_id | mov_id | role                |
++--------+--------+---------------------+
+|    101 |    901 | Alvy Singer         |
+|    102 |    902 | Rose DeWitt Bukater |
+|    103 |    903 | Andy Dufresne       |
+|    104 |    904 | Jamal Malik         |
+|    105 |    905 | Princess Mononoke   |
++--------+--------+---------------------+
+5 rows in set (0.018 sec)
+
+insert into movie_genres values(901,1001);
+Query OK, 1 row affected (0.010 sec)
+
+insert into movie_genres values(902,1002);
+Query OK, 1 row affected (0.012 sec)
+
+insert into movie_genres values(903,1003);
+Query OK, 1 row affected (0.008 sec)
+
+insert into movie_genres values(904,1004);
+Query OK, 1 row affected (0.008 sec)
+
+insert into movie_genres values(905,1005);
+Query OK, 1 row affected (0.008 sec)
+
+select * from movie_genres;
+
++--------+--------+
+| mov_id | gen_id |
++--------+--------+
+|    901 |   1001 |
+|    902 |   1002 |
+|    903 |   1003 |
+|    904 |   1004 |
+|    905 |   1005 |
++--------+--------+
+5 rows in set (0.019 sec)
+
+insert into movie_direction values(201,901);
+Query OK, 1 row affected (0.011 sec)
+
+insert into movie_direction values(202,902);
+Query OK, 1 row affected (0.011 sec)
+
+insert into movie_direction values(203,903);
+Query OK, 1 row affected (0.008 sec)
+
+insert into movie_direction values(204,904);
+Query OK, 1 row affected (0.007 sec)
+
+insert into movie_direction values(205,905);
+Query OK, 1 row affected (0.005 sec)
+
+select * from movie_direction;
+
++--------+--------+
+| dir_id | mov_id |
++--------+--------+
+|    201 |    901 |
+|    202 |    902 |
+|    203 |    903 |
+|    204 |    904 |
+|    205 |    905 |
++--------+--------+
+5 rows in set (0.018 sec)
+
+insert into rating values(901,9001,7.90,20207);
+Query OK, 1 row affected (0.011 sec)
+
+insert into rating values(902,9002,8.40,263575);
+Query OK, 1 row affected (0.008 sec)
+
+insert into rating values(903,9003,7.00,862618);
+Query OK, 1 row affected (0.012 sec)
+
+insert into rating values(904,9004,6.70,13091);
+Query OK, 1 row affected (0.006 sec)
+
+insert into rating values(905,9005,6.30,20207);
+Query OK, 1 row affected (0.006 sec)
+
+select * from rating;
+
++--------+--------+-----------+---------------+
+| mov_id | rev_id | rev_stars | num_o_ratings |
++--------+--------+-----------+---------------+
+|    901 |   9001 |         8 |         20207 |
+|    902 |   9002 |         8 |        263575 |
+|    903 |   9003 |         7 |        862618 |
+|    904 |   9004 |         7 |         13091 |
+|    905 |   9005 |         6 |         20207 |
++--------+--------+-----------+---------------+
+5 rows in set (0.018 sec)
